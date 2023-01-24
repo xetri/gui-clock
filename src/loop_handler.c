@@ -20,7 +20,10 @@ char *parseWeekday(int tm);
 
 void screen_loop(Loop_handler handler) {
 
-  TTF_Init();
+  if (TTF_Init() != 0){
+    fprintf(stderr, "Font failed to initialize");
+    return;
+  }
 
   SDL_Event event;
   SDL_Color color = {16, 16, 16, 255};
@@ -33,7 +36,7 @@ void screen_loop(Loop_handler handler) {
   TTF_Font *date_font;
 
   int fontSize = 100;
-  char *fontPath = "assets\\fonts\\OpenSans\\OpenSans-Regular.ttf";
+  char *fontPath = "assets\\fonts\\OpenSans\\OpenSans-Regular.ttf"; //needed to run exectable relatively to the path
 
   char *time_text = (char *)malloc((int)sizeof(char *));
   SDL_Texture *time_texture = NULL;
@@ -47,7 +50,7 @@ void screen_loop(Loop_handler handler) {
 
   if (!(time_font = TTF_OpenFont(fontPath, fontSize)) ||
       !(date_font = TTF_OpenFont(fontPath, fontSize / 3))) {
-    printf("Error: %s", TTF_GetError());
+    fprintf(stderr, "%s", TTF_GetError());
     return;
   }
 
