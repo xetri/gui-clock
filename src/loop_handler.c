@@ -7,8 +7,8 @@
 #include "../include/SDL2/SDL_ttf.h"
 #endif
 
-#define SCREEN_WIDTH 620
-#define SCREEN_HEIGHT 310
+#define SCREEN_WIDTH 580
+#define SCREEN_HEIGHT 280
 
 typedef struct {
   SDL_Window *window;
@@ -16,22 +16,24 @@ typedef struct {
   SDL_Renderer *renderer;
 } Loop_handler;
 
-SDL_Color color = {16, 16, 16, 255};
-time_t currentTime;
-struct tm *timeinfo;
-
-int fontSize = 100;
-char *fontPath = "assets\\fonts\\OpenSans\\OpenSans-Regular.ttf";
-
 char *parseWeekday(int tm);
 
 void screen_loop(Loop_handler handler) {
-  SDL_Event event;
 
   TTF_Init();
+
+  SDL_Event event;
+  SDL_Color color = {16, 16, 16, 255};
+
   SDL_Color clock_color = {0xff, 0xff, 0xff};
+  time_t currentTime;
+  struct tm *timeinfo;
+
   TTF_Font *time_font;
   TTF_Font *date_font;
+
+  int fontSize = 100;
+  char *fontPath = "assets\\fonts\\OpenSans\\OpenSans-Regular.ttf";
 
   char *time_text = (char *)malloc((int)sizeof(char *));
   SDL_Texture *time_texture = NULL;
@@ -46,7 +48,7 @@ void screen_loop(Loop_handler handler) {
   if (!(time_font = TTF_OpenFont(fontPath, fontSize)) ||
       !(date_font = TTF_OpenFont(fontPath, fontSize / 3))) {
     printf("Error: %s", TTF_GetError());
-    exit(-1);
+    return;
   }
 
   int timeW, timeH, dateW, dateH;
@@ -60,14 +62,14 @@ void screen_loop(Loop_handler handler) {
     if (SDL_PollEvent(&event)) {
       if (event.type == SDL_QUIT) {
         quit = true;
-        exit(0); // not good way to exit
+        // exit(0); // not good way to exit with exit()
       }
     }
 
     // updating time to current
     time(&currentTime);
     timeinfo = localtime(&currentTime);
-    sprintf(time_text, "%d:%d:%ds", timeinfo->tm_hour, timeinfo->tm_min,
+    sprintf(time_text, "%d:%d:%d", timeinfo->tm_hour, timeinfo->tm_min,
             timeinfo->tm_sec);
     sprintf(date_text, "%s %d/%d/%d", parseWeekday(timeinfo->tm_wday),
             timeinfo->tm_mday, timeinfo->tm_mon + 1, timeinfo->tm_year + 1900);
@@ -96,6 +98,8 @@ void screen_loop(Loop_handler handler) {
     SDL_FreeSurface(date_surface);
     SDL_DestroyTexture(time_texture);
     SDL_DestroyTexture(date_texture);
+
+    // SDL_Delay(1000); //add delay to reduce cpu usage but not good for clock
   }
 
   free(time_text);
@@ -106,7 +110,6 @@ void screen_loop(Loop_handler handler) {
 }
 
 char *parseWeekday(int tm) {
-
   char *wday;
 
   switch (tm) {

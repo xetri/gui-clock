@@ -3,16 +3,39 @@ MAIN = main
 L = c
 OUT = out
 O = $(OUT)
-CFLAGS = -Wall -Llib -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf
+CFLAGS-WIN = -Llib -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf
+CFLAGS-LIN = -Llib -lSDL2 -lSDL2_ttf
 
-build:
+.SILENT:
+all:
+	echo "Use specific sys commands listed"
+	echo "Winows: build-win"
+	echo "LINUX: build-lin"
+	echo "Mac: not configured"
+
+build-win:
 	mkdir -p out
-	$(CC) ./src/$(MAIN).$(L) -o ./$(OUT)/$(MAIN).$(O) $(CFLAGS)
+	$(CC) ./src/$(MAIN).$(L) -o ./$(OUT)/$(MAIN).$(O) $(CFLAGS-WIN)
 
-run:
+run-win:
 	mkdir -p out
 	./$(OUT)/$(MAIN).$(O)
 
-o:
-	make build
-	make run
+o-win:
+	make build-win
+	make run-win
+
+
+build-lin:
+	mkdir -p out
+	$(CC) ./src/$(MAIN).$(L) -o ./$(OUT)/$(MAIN).$(O) $(CFLAGS-LIN)
+
+run-lin:
+	mkdir -p out
+	./$(OUT)/$(MAIN).$(O)
+
+o-lin:
+	make build-lin
+	make run-lin
+
+
