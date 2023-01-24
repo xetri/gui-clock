@@ -1,10 +1,9 @@
 #include <stdbool.h>
 #include <stdio.h>
-#include <sys/time.h>
+#include <time.h>
 
 #ifndef SDL_C
 #include "../include/SDL2/SDL.h"
-#include "../include/SDL2/SDL_image.h"
 #include "../include/SDL2/SDL_ttf.h"
 #endif
 
