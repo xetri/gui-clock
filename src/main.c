@@ -12,9 +12,9 @@ int main(int argc, char **argv) {
   SDL_Window *window = NULL;
   SDL_Surface *screenSurface = NULL;
 
-  if (SDL_Init(SDL_INIT_VIDEO) != 0 || SDL_Init(SDL_INIT_EVENTS) != 0) {
-    fprintf(stderr, "%s", SDL_GetError());
-    return -1;
+    if (SDL_Init(SDL_INIT_EVERYTHING)!= 0){
+      fprintf(stderr, "%s", SDL_GetError());
+      return -1;
   }
 
   if (!(window = SDL_CreateWindow("Clock", SDL_WINDOWPOS_UNDEFINED,
