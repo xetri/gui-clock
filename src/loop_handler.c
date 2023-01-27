@@ -16,18 +16,17 @@ typedef struct {
   SDL_Renderer *renderer;
 } Loop_handler;
 
+SDL_Event event;
+SDL_Color color = {16, 16, 16, 255};
+
 char *parseWeekday(int tm);
 
 void screen_loop(Loop_handler handler) {
 
-  if (TTF_Init() != 0){
-    fprintf(stderr, "Font failed to initialize");
+  if (TTF_Init() < 0){
+    fprintf(stderr, "%s", TTF_GetError());
     return;
   }
-
-  SDL_Event event;
-  SDL_Color color = {16, 16, 16, 255};
-
   SDL_Color clock_color = {0xff, 0xff, 0xff};
   time_t currentTime;
   struct tm *timeinfo;
@@ -97,12 +96,10 @@ void screen_loop(Loop_handler handler) {
     SDL_RenderPresent(handler.renderer);
 
     //@freeing memory
-    SDL_FreeSurface(time_surface);
-    SDL_FreeSurface(date_surface);
     SDL_DestroyTexture(time_texture);
+    SDL_FreeSurface(time_surface);
     SDL_DestroyTexture(date_texture);
-
-    // SDL_Delay(1000); //add delay to reduce cpu usage but not good for clock
+    SDL_FreeSurface(date_surface);
   }
 
   free(time_text);

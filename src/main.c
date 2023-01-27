@@ -9,29 +9,34 @@
 
 int main(int argc, char **argv) {
 
-  SDL_Window *window = NULL;
-  SDL_Surface *screenSurface = NULL;
-
-    if (SDL_Init(SDL_INIT_EVERYTHING)!= 0){
+  if (SDL_Init(SDL_INIT_EVERYTHING) < 0){
       fprintf(stderr, "%s", SDL_GetError());
       return -1;
   }
 
-  if (!(window = SDL_CreateWindow("Clock", SDL_WINDOWPOS_UNDEFINED,
+  SDL_Window* window = SDL_CreateWindow("Clock", SDL_WINDOWPOS_UNDEFINED,
                                   SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
-                                  SCREEN_HEIGHT, SDL_WINDOW_SHOWN))) {
+                                  SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+  if (!window){
     fprintf(stderr, "%s", SDL_GetError());
     return -1;
   }
 
-  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
+  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED |SDL_RENDERER_PRESENTVSYNC);
+  if (!renderer){
+    fprintf(stderr, "%s", SDL_GetError());
+    return -1;
+  }
 
-  screenSurface = SDL_GetWindowSurface(window);
-  SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0, 0, 0));
-  SDL_UpdateWindowSurface(window);
+  SDL_Surface *screenSurface = SDL_GetWindowSurface(window);
+  if (!screenSurface) {
+    fprintf(stderr, "%s", SDL_GetError());
+    return -1;
+  }
 
   screen_loop((Loop_handler){window, screenSurface, renderer});
 
+  SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
 
