@@ -1,4 +1,3 @@
-#include <SDL2/SDL_video.h>
 #include <stdio.h>
 #include <time.h>
 
@@ -27,7 +26,7 @@ struct tm *timeinfo;
 void update(SDL_Window* window, SDL_Renderer* renderer);
 
 int main() {
-  SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO);
+  SDL_Init(SDL_INIT_EVENTS);
 
   SDL_Window* window = SDL_CreateWindow("Clock",
     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
