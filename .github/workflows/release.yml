@@ -1,0 +1,68 @@
+name: gClock - Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-linux:
+    name: Build Linux
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libsdl2-dev libsdl2-ttf-dev
+      - name: Build static binary
+        run: |
+          mkdir -p build
+          gcc -std=c99 -O2 -static src/main.c -o build/gclock-linux -lSDL2 -lSDL2_ttf
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/gclock-linux
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-windows:
+    name: Build Windows
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install MinGW
+        run: choco install -y mingw
+      - name: Build executable
+        shell: bash
+        run: |
+          mkdir -p build
+          gcc -std=c99 -O2 src/main.c -o build/gclock.exe -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/gclock.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-macos:
+    name: Build macOS
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          brew install sdl2 sdl2_ttf
+      - name: Build binary
+        run: |
+          mkdir -p build
+          gcc -std=c99 -O2 src/main.c -o build/gclock-macos -lSDL2 -lSDL2_ttf
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/gclock-macos
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
