@@ -1,6 +1,6 @@
 # gclock
 
-A graphical clock application written in C using SDL2.
+### A graphical clock application written in C using SDL2.
 
 ![Preview](docs/preview.png)
 
