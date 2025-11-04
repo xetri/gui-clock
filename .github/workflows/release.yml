@@ -109,8 +109,10 @@ jobs:
           mkdir -p build
           # Compile gClock using the statically built dependencies
           gcc -std=c99 -O2 \
+            -Ideps/SDL2-2.32.10/build/include \
             -Ideps/SDL2-2.32.10/build/include/SDL2 \
-            -Ideps/SDL2_ttf-2.24.0/build/include/SDL2 \
+            -Ideps/SDL2_ttf-2.24.0/build/include \
+            -Ideps/SDL2_ttf-2.24.0/build/include/SDL2_ttf \
             src/main.c \
             -o build/gclock-linux \
             -Ldeps/SDL2-2.32.10/build/lib -lSDL2 \
@@ -150,16 +152,18 @@ jobs:
          bash.exe -lc "pacman -S --noconfirm base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_ttf"
 
      - name: Build gClock (Windows)
-       shell: powershell
+       shell: cmd
+       env:
+         PREFIX: C:\msys64\mingw64
        run: |
-         PREFIX=/mingw64
-         mkdir -p build
-         x86_64-w64-mingw32-gcc -std=c99 -O2 \
-         -I$PREFIX/include/SDL2 \
-         src/main.c \
-         -o build/gclock.exe \
-         -L$PREFIX/lib -lSDL2 -lSDL2_ttf \
-         -lwinmm -ldsound -lsetupapi -mwindows
+         mkdir build
+         x86_64-w64-mingw32-gcc -std=c99 -O2 ^
+           -I%PREFIX%\\include ^
+           src\\main.c ^
+           -o build\\gclock.exe ^
+           -L%PREFIX%\\lib -lSDL2 -lSDL2_ttf ^
+           -lwinmm -ldsound -lsetupapi -mwindows
+
 
      - uses: softprops/action-gh-release@v2
        with:

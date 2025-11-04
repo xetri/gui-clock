@@ -17,7 +17,7 @@ A graphical clock application written in C using SDL2.
 ## Installation
 
 ### Precompiled Binaries
-Precompiled binaries are available in the [Releases](#) section for all major platforms. Download the appropriate binary for your platform and run the executable.
+Precompiled binaries are available in the [Releases](https://github.com/xetri/gclock/releases) section for all major platforms. Download the appropriate binary for your platform and run the executable.
 
 ### Building from Source
 To build the application for your platform, follow these steps:
