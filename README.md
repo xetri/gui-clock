@@ -1,17 +1,15 @@
 # gclock
 
-A graphical clock application written in C using SDL2.
+### A gui clock written using Raylib in C.
 
 ![Preview](docs/preview.png)
 
 ## Features
 - Displays the current time and date in a graphical interface.
 - Lightweight and efficient.
-- Precompiled binaries available for all major platforms.
 
 ## Requirements
-- SDL2 library
-- SDL2_ttf library
+- Raylib v5.0.0
 - A C compiler (e.g., GCC) (only needed for building from source)
 
 ## Installation
