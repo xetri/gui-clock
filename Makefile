@@ -1,16 +1,17 @@
 CC = cc
-CFLAGS = -std=c99 -O2
-LFLAGS = -lSDL2 -lSDL2_ttf -lm
+CFLAGS = -std=c99
+LFLAGS = -lraylib -lm
 
 .PHONY: all clean run
 
 all: gclock
 
-gclock: src/main.c src/*.c src/*.h
+gclock: src/main.c
 	$(CC) $< -o $@ $(CFLAGS) $(LFLAGS)
 
 run: gclock
 	./gclock
+	make clean
 
 clean:
 	rm -f ./gclock
