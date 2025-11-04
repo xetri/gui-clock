@@ -28,7 +28,7 @@ void update(SDL_Window* window, SDL_Renderer* renderer);
 int main() {
   SDL_Init(SDL_INIT_EVENTS);
 
-  SDL_Window* window = SDL_CreateWindow("Clock",
+  SDL_Window* window = SDL_CreateWindow("gClock",
     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
     SCREEN_WIDTH, SCREEN_HEIGHT,
     SDL_WINDOW_SHOWN

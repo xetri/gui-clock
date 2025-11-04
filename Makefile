@@ -1,6 +1,6 @@
 CC = cc
-CFLAGS = -std=c99
-LFLAGS = -lSDL2 -lSDL2_ttf
+CFLAGS = -std=c99 -O2
+LFLAGS = -lSDL2 -lSDL2_ttf -lm
 
 .PHONY: all clean run
 
